@@ -1,4 +1,4 @@
-This code approximately detects the horizon line in a folder of images and outputs an evaluation metric based on a ground truth file.
+This code detects the horizon line in a folder of images and outputs an evaluation metric based on a ground truth file.
 
 # Instructions for running code
 My code is written in Python 3.9. Please run it like this:
