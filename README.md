@@ -17,7 +17,7 @@ The code first preprocesses the images using a Canny edge detector. Then, a Stan
 [frame0001](https://user-images.githubusercontent.com/44094521/145135134-ae444989-a360-4c32-8946-8982ff00c120.jpg)
 <!-- Figure 1: Result of Canny Edge Detector and straight lines detected by the Hough Transform  
  -->
-![frame0001canny](https://user-images.githubusercontent.com/44094521/145135139-5761ec04-f35c-45f4-ab87-ff06fdc9cf1b.jpg)
+[frame0001canny](https://user-images.githubusercontent.com/44094521/145135139-5761ec04-f35c-45f4-ab87-ff06fdc9cf1b.jpg)
 <!-- Figure 2: The longest line picked and extended to cover the image.
  -->
 This approach assumes that the horizon would be the straightest/longest line in the image. Given that drone footage is most often taken from a high point and over fairly natural scenery, this is an appropriate assumption given that the longest and greatest contrast across a frame occurs where land/sea meets the sky.  
