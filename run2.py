@@ -53,7 +53,8 @@ for filename in tqdm(os.listdir(folder)):
                 pt2 = (int(x0 - 1000*(-b)), int(y0 - 1000*(a)))
                 slope = -a/b
 
-                h = math.hypot(theta1, theta2)
+                # find longest line
+                h = math.dist(pt1, pt2)
                 cv.line(cdst, pt1, pt2, (0,255,0), 3, cv.LINE_AA)
                 if max_d < h:
                     max_l1 = pt1
@@ -69,5 +70,5 @@ for filename in tqdm(os.listdir(folder)):
         c = cost((0, y1),(width, y2), gt_data[filename]["left"], gt_data[filename]["right"])
         costs.append(c)
 
-cost_metric = sum(costs)/len(costs)
+cost_metric = (sum(costs)/len(costs))/2
 print('Metric: ', cost_metric)

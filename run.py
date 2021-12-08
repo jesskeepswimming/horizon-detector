@@ -7,33 +7,38 @@ import sys
 from tqdm import tqdm
 import time
 import json
+import argparse
 
+# metric function
 def cost(p1,p2, gp1, gp2):
     y0 = abs(p1[1] - gp1[1])
     yw = abs(p2[1] - gp2[1])
     return y0 + yw
 
-if len(sys.argv) != 2:
-    print('Please input a folder name.')
-    exit()
+# parse command line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--input', type=str, required=True)
+parser.add_argument('--output', type=str, required=False)
+args = parser.parse_args()
+result_folder = args.output
 
-# find input
-folder = sys.argv[1]
-result_folder = folder+'_result_' + str(int(time.time())) +'/'
+if not args.output: 
+    result_folder = args.input+'_result_' + str(int(time.time()))
+    print('Results Folder: ' + result_folder)
+
 os.mkdir(result_folder) 
-print('Results Folder: ' + result_folder)
 
 # parse ground truth data
 gt_data = {}
-with open(folder + '/ground_truth.json') as f:
+with open(args.input + '/ground_truth.json') as f:
     gt_data = json.load(f)
 
 y1 = 0
 y2 = 0
 costs = []
-for filename in tqdm(os.listdir(folder)):
+for filename in tqdm(os.listdir(args.input)):
     if filename.endswith(".jpg"):
-        img = cv.imread(folder+'/'+filename,1)
+        img = cv.imread(args.input+'/'+filename,1)
         
         dimensions = img.shape
         height = img.shape[0]
@@ -60,14 +65,14 @@ for filename in tqdm(os.listdir(folder)):
                 h = math.dist(pt1, pt2)
                 if max_d < h:
                     max_d = h
-                    # point-slope form using left and right bounds of image 
+                    # extend line with point-slope form using left and right bounds of image 
                     y1 = int(slope * (0-pt2[0]) + pt2[1])
                     y2 = int(slope * (width-pt2[0]) + pt2[1])
 
         cv.line(img, (0, y1), (width, y2), (0,0,255), 3, cv.LINE_AA)
-        cv.imwrite(result_folder +filename, img)
-        c = cost((0, y1),(width, y2), gt_data[filename]["left"], gt_data[filename]["right"])
+        cv.imwrite(result_folder+ '/' +filename, img)
+        c = cost((0, y1),(width, y2), gt_data[filename]["left"], gt_data[filename]["right"])/2
         costs.append(c)
 
-cost_metric = sum(costs)/len(costs)
-print('Metric: ', cost_metric)
+print('Mean: ', np.mean(costs))
+print('Standard Deviation: ', np.std(costs))
