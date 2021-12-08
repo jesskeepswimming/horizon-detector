@@ -10,7 +10,7 @@ Please install the following dependencies:
 - matplotlib
 - tqdm
 
-# A brief explanation of how your code works!
+# A brief explanation of how the code works
 
 The code first preprocesses the images using a Canny edge detector. Then, a Standard Hough Line transform is applied to the resulting image to detect straight lines in the image. From the outputs of this function, the longest line is chosen as the horizon line. Using the point-slope form equation, this line is extended to meet the left and right borders of the image.
 
